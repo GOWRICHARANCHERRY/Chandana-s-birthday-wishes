@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins','Segoe UI',sans-serif;background:#0b0b14;color:#eee;overflow-x:hidden;}
+@keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(0.96)}45%{transform:scale(1.12)}60%{transform:scale(1)}}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 25px rgba(255,40,60,0.55))}50%{filter:drop-shadow(0 0 50px rgba(255,40,60,0.95))}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes floatSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes twinkle{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+canvas.ambient{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+canvas.massive{position:fixed;top:0;left:0;pointer-events:none;z-index:50;}
+.page{min-height:100vh;position:relative;overflow:hidden;}
+#home{background:radial-gradient(ellipse at top,#1a0e22 0%,#0b0b14 55%,#050507 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+#story{background:radial-gradient(ellipse at top,#1a0e22 0%,#0b0b14 55%,#050507 100%);padding-bottom:60px;display:none;}
+.stars-layer{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.content{position:relative;z-index:2;}
+.glow-orb-1{position:absolute;top:8%;left:12%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,60,90,0.18),transparent 70%);animation:floatSlow 7s ease-in-out infinite;z-index:0;}
+.glow-orb-2{position:absolute;bottom:10%;right:10%;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(120,80,255,0.16),transparent 70%);animation:floatSlow 9s ease-in-out infinite reverse;z-index:0;}
+.shimmer-text{background:linear-gradient(90deg,#FFD93D,#FF6B9D,#C77DFF,#FFD93D);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;}
+.btn-primary{padding:15px 42px;font-size:15px;font-weight:600;letter-spacing:0.5px;border:none;background:linear-gradient(135deg,#FF4D6D 0%,#C77DFF 100%);color:#fff;border-radius:50px;cursor:pointer;box-shadow:0 8px 24px rgba(255,77,109,0.4);transition:transform 0.25s,box-shadow 0.25s;font-family:'Poppins',sans-serif;}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(199,125,255,0.5);}
+.btn-back{padding:13px 34px;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#fff;border-radius:50px;cursor:pointer;transition:all 0.3s;backdrop-filter:blur(8px);font-family:'Poppins',sans-serif;}
+.btn-back:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px);}
+.glass-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;backdrop-filter:blur(10px);}
+.timeline-dot{position:absolute;left:-31px;top:14px;width:18px;height:18px;background:#0b0b14;border-radius:50%;}
+.moment-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:28px;border-radius:16px;backdrop-filter:blur(10px);transition:all 0.3s;margin-bottom:46px;position:relative;}
+.moment-card:hover{box-shadow:0 8px 30px rgba(255,107,157,0.15);}
+.img-tile{width:100%;border-radius:12px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:linear-gradient(135deg,#2a2a3e 0%,#1a1a2e 100%);border:1.5px dashed rgba(255,77,109,0.33);position:relative;}
+.img-tile img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.img-change{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px);}
+.editable-msg{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;color:#d9cfe0;font-family:'Poppins',sans-serif;font-size:15.5px;line-height:1.9;padding:20px;resize:vertical;min-height:160px;outline:none;transition:border 0.3s;}
+.editable-msg:focus{border-color:rgba(255,107,157,0.5);}
+.letter-box{max-width:700px;margin:70px auto 0;padding:36px;text-align:center;}
+.letter-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,107,157,0.25);border-radius:14px;color:#d9cfe0;font-family:'Poppins',sans-serif;font-size:15px;line-height:1.9;padding:20px;resize:vertical;min-height:180px;outline:none;transition:border 0.3s;}
+.letter-textarea:focus{border-color:rgba(255,107,157,0.6);box-shadow:0 0 20px rgba(255,107,157,0.1);}
+.letter-textarea::placeholder{color:#665575;font-style:italic;}
+</style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div id="home" class="page">
+  <canvas class="ambient" id="canvas-home"></canvas>
+  <div class="stars-layer" id="stars-home"></div>
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
+
+  <div class="content" style="text-align:center;max-width:640px;width:100%;">
+    <div id="pre-reveal" style="animation:fadeIn 0.8s ease;">
+      <p style="font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#9d8fb0;margin-bottom:12px;font-weight:500;">A little surprise for you</p>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(34px,6vw,52px);font-weight:700;font-style:italic;margin-bottom:48px;color:#fff;line-height:1.25;">To my favourite person</h1>
+      <div id="heart-btn" style="font-size:clamp(90px,22vw,150px);cursor:pointer;display:inline-block;animation:heartBeat 1.8s ease-in-out infinite,glowPulse 2.4s ease-in-out infinite;color:#FF1E3C;user-select:none;line-height:1;margin-bottom:28px;">❤️</div>
+      <p style="font-size:17px;font-style:italic;color:#cbb8d4;font-weight:400;letter-spacing:0.5px;">Tap here mummum</p>
+    </div>
+    <div id="post-reveal" style="display:none;animation:fadeUp 1s ease-out;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.15;" class="shimmer-text">  Happy birthday <br/>to you <br/>My Gublu Sona  </h2>
+      <p style="font-size:clamp(18px,4vw,26px);font-weight:600;color:#ffe4ec;margin-top:22px;letter-spacing:0.5px;">Many many retrns of the day to my cute baby amar ✨</p>
+      <div style="font-size:60px;margin-top:30px;animation:floatSlow 4s ease-in-out infinite;">❤️</div>
+      <button class="btn-primary" id="go-story-btn" style="margin-top:50px;">Click koro mummum  eikhane for the little surprises 🎁</button>
+    </div>
+  </div>
+</div>
+
+<!-- STORY PAGE -->
+<div id="story" class="page">
+  <canvas class="ambient" id="canvas-story"></canvas>
+  <div class="stars-layer" id="stars-story"></div>
+
+  <!-- Header -->
+  <div class="content" style="padding:70px 20px 40px;text-align:center;">
+    <p style="font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#9d8fb0;margin-bottom:10px;font-weight:500;">Just for you </p>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,60px);font-weight:700;font-style:italic;background:linear-gradient(90deg,#FF6B9D,#C77DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Our Story</h1>
+    <p style="font-size:15px;color:#b9aac4;margin-top:14px;">First of all-Happy 22nd birthday to my lady .....Sottie bolte gele almost amader tor birthday dhorei amader 3years complete holo ..so congratulations both of us but bipottarini Ma ke sakkhi rekhe bolchi special thanks toke "sona"-ami always felt lucky tor moto manush peyechi ami- it's always inspiring me by your presence . Tui manush ta amar kache oenk important and seta not ony je amar kharap time e amar pashe thakar jonne na re amar hasi khusi excitement everythng ke nijer khusi mone kore nijeke amar kore deoa like " nijer husbend er kache jemon milemishe jay serom ekdom " totally..""that's why ami tor moddhe ami amader future dekhte pai"- blessed to have you My Princess  💕</p>
+  </div>
+
+  <!-- Photo showcase -->
+<div class="content" style="max-width:1000px;margin:20px auto 60px;padding:0 20px;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+
+    <!-- PHOTO 1 -->
+    <div class="img-tile" style="aspect-ratio:9/16;max-width:300px;margin:auto;">
+      <img src="gublu5.jpeg"
+           style="width:100%;height:100%;object-fit:cover;display:block;">
+    </div>
+
+    <!-- PHOTO 2 -->
+    <div class="img-tile" style="aspect-ratio:9/16;max-width:300px;margin:auto;">
+      <img src="gublu6.jpeg"
+           style="width:100%;height:100%;object-fit:cover;display:block;">
+    </div>
+
+  </div>
+</div>
+  <!-- Story text -->
+  <div class="content glass-card" style="max-width:900px;margin:0 auto 60px;padding:40px 20px 40px 40px;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#FF8FAE;margin-top:0;margin-bottom:20px;">Some words for you(side e ektu scroll kore lekha gulo poris) </h2>
+    <textarea class="editable-msg" id="story-text"> to my favourite person -- ami just tomake niye koyekta  kotha khubi bolte chai..ajke hoyto tumi amar life  e acho ar ami chaibo jeno agami prottekta bochoreo jeno tumi amar kache thako |
+       toke niye jotota bolbo totoa komi hbe but ami eta bolbo je 2023 e je meytar sathe ami prothom kotha bolchilam(abe tor kothai bolchi bhulbhball bhabbina kelane ekta)....ar aj ei meyer modhe akash patal tofath ache ik ....ei tofath ta se niijer moddhe develop koreche just because of she(means you) loves me a lot that i know
+      kintu starting theke ki tu amake bhalobastis ?..Naaa becuz u fear about the people and the sociaty jara diner por din meyder ke sudhu use korche and diner por din meyder ke choto korche..esob janar por kono meyei nije theke relationship e aste bhoyee pabe mane bhodro ghorer meyra jeta tui ik..kintu janish ti meghna sothik manush er haat  dhorle duniye t ajerom khusi hoye jak tor modhe ekta confident thakbe je na amro keu ache je amakeo amar theke beis bhalobhale ...and always ami thankful....je 4,5bar rejection khaowar por giye tui amake finally accept korechis ..that means "tui nijeke bissas korechis je cheletake ami bissas korte parbo"
+      jibone amar one of the best moments holo tui make choose korechis ...jokhon tor kache best best ooptions chilo after all of that u choosse me.seta boro kotha noy...."" Boro kotha ta holo - shob kichu past er history janar poreo tui amar stahe theke gechis --- tui amake ekta kotha bol - tui je atobhaobashis eta bojhar poreo toke ami jiboneo charar kotha bhbate parina jotoi ami rrag dekhai ..amni emni bolina je "Im the very lucky person to havee you ""...tor impostance kotota ami onek agai bujhe gechi tai jibone joto boroi somossa hok ami tor samne matha nichu korei sob kotha ami sunbo ....becuase.. tui jeta korechis  tor jaygay onno keu thakle ami ajke singgle e pore thaktam to birhtday niye ato excited hapy lafalafi moner moddhe kortam na...
+      tor icche,chaowa ,bhalobasha,ador ,kheyal rakha theke tor raag ,ma kali rup ami shobtakei bhalobashi khbui...becuase tor moddhe je manoshikota ta ache seta jke baki 10joner moddheo nei ......besi bole fellam kina janina ...but tui manush ta ke ami mon theke emni emnietota bhalobashini re,,,nischoi kichu baper tor moddhe chilo ache r thakbe seta bhebei 
+      "Beacause tui amake sikhiyechis jibone Anondo ta tao abar nijer manuhser sathe kotota important+nijer manush ke kibahbe sonman kora ,manuhs take grow kora support kora...etc onek kichu tor theke ami ajo sikhi...so hatts of to you meghna"
+      never forget...u also be the best person in someone's life (amar life e re)tai nijeke kokhono choto korbina kokhono down korbina _ nijer matha tule tui bachbi .moner anonde bachbi..life ektai enjpy all of these..shob somoy bhoy pabina ,..<br/> your love Jontu❤️</textarea>
+  </div>
+
+  <!-- Timeline -->
+  <div class="content" style="max-width:900px;margin:0 auto;padding:0 20px;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,36px);font-weight:700;text-align:center;margin-bottom:50px;color:#fff;">Our Special Moments ✨</h2>
+    <div style="position:relative;padding-left:36px;">
+      <div style="position:absolute;left:13px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#FF4D6D 0%,#C77DFF 100%);opacity:0.5;"></div>
+      <div id="moments-container"></div>
+    </div>
+  </div>
+
+  <!-- Letter box - EDITABLE -->
+  <div class="content glass-card letter-box">
+    <div style="font-size:30px;margin-bottom:14px;">💌</div>
+    <h3 style="font-family:'Playfair Display',serif;font-style:italic;font-size:22px;font-weight:700;color:#FF8FAE;margin:0 0 16px 0;">A few words, just for you</h3>
+    <p style="font-size:13px;color:#9d8fb0;margin-bottom:16px;font-style:italic;"></p>
+    <textarea class="letter-textarea" placeholder="I just want to say ...I just madly love you love you love you love youuuuuuuu from core of the my heart and it's increasing day by day...which will be makes you more more romantic when u're around me ....Amar mone ektai questioon -(Meghna will you maryy me ? )jeromi situation life e asuk seta jerom khusi pare Please -Amake chere jabina to kokhono ? toke chara amar kono safe place nei AMi tor kachei comfortable shob kichui toke bolte pari ..I love you sona Umahh umaahh umahh."></textarea>
+  </div>
+
+  <!-- Back -->
+  <div class="content" style="text-align:center;margin-top:60px;padding-bottom:20px;">
+    <button class="btn-back" id="go-home-btn">← Back to Beginning</button>
+  </div>
+</div>
+
+<!-- MASSIVE FIREWORKS CANVAS -->
+<canvas class="massive" id="canvas-massive" style="display:none;width:100vw;height:100vh;"></canvas>
+
+<script>
+// ---- PLANET / STAR SYSTEM ----
+const PLANET_COLORS = ['#FF6B9D','#C77DFF','#FFD93D','#6BCB77','#4D96FF','#FF8C42','#FF4D4D','#fff'];
+
+function createStarField(containerId, count) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+
+  // Orbiting planet groups
+  const numGroups = 4;
+  for (let g = 0; g < numGroups; g++) {
+    const cx = 10 + Math.random() * 80;
+    const cy = 10 + Math.random() * 80;
+    const numPlanets = 2 + Math.floor(Math.random() * 3);
+    for (let p = 0; p < numPlanets; p++) {
+      const orbitRadius = 40 + p * 35 + Math.random() * 20;
+      const size = 4 + Math.random() * 7;
+      const color = PLANET_COLORS[Math.floor(Math.random() * PLANET_COLORS.length)];
+      const duration = 8 + p * 4 + Math.random() * 6;
+      const delay = -Math.random() * duration;
+      const startAngle = Math.random() * 360;
+      const orbitEl = document.createElement('div');
+      orbitEl.style.cssText = `
+        position:absolute;
+        left:${cx}%;top:${cy}%;
+        width:${orbitRadius * 2}px;height:${orbitRadius * 2}px;
+        margin-left:-${orbitRadius}px;margin-top:-${orbitRadius}px;
+        border-radius:50%;
+        animation:orbit${g}_${p} ${duration}s linear ${delay}s infinite;
+        pointer-events:none;
+      `;
+      const planetEl = document.createElement('div');
+      planetEl.style.cssText = `
+        position:absolute;
+        top:0;left:50%;
+        margin-left:-${size/2}px;margin-top:-${size/2}px;
+        width:${size}px;height:${size}px;
+        border-radius:50%;
+        background:${color};
+        box-shadow:0 0 ${size*2}px ${color}99,0 0 ${size*4}px ${color}44;
+      `;
+      // Add moon
+      if (Math.random() > 0.5) {
+        const moonEl = document.createElement('div');
+        const ms = 2 + Math.random() * 3;
+        moonEl.style.cssText = `
+          position:absolute;
+          top:${-ms - 5}px;left:${size/2 - ms/2}px;
+          width:${ms}px;height:${ms}px;
+          border-radius:50%;
+          background:#ccc;
+          box-shadow:0 0 6px #fff8;
+        `;
+        planetEl.appendChild(moonEl);
+      }
+      orbitEl.appendChild(planetEl);
+
+      // Inject keyframe
+      const styleEl = document.createElement('style');
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      styleEl.textContent = `@keyframes orbit${g}_${p}{from{transform:rotate(${startAngle}deg)}to{transform:rotate(${startAngle + dir*360}deg)}}`;
+      document.head.appendChild(styleEl);
+      container.appendChild(orbitEl);
+    }
+  }
+
+  // Regular twinkling stars (gol gol)
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    const size = 1.5 + Math.random() * 3.5;
+    const opacity = 0.3 + Math.random() * 0.7;
+    const delay = Math.random() * 5;
+    const duration = 2 + Math.random() * 4;
+    star.style.cssText = `
+      position:absolute;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 100}%;
+      width:${size}px;height:${size}px;
+      border-radius:50%;
+      background:#fff;
+      opacity:${opacity};
+      box-shadow:0 0 ${size*2}px rgba(255,255,255,0.8);
+      animation:twinkle ${duration}s ease-in-out ${delay}s infinite;
+    `;
+    container.appendChild(star);
+  }
+}
+
+// ---- AMBIENT FIRECRACKER CANVAS ----
+function startAmbient(canvasId, intensity) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let bursts = [], lastBurst = 0, raf;
+  const colors = ['#FF4D4D','#FFD93D','#6BCB77','#4D96FF','#FF6BCB','#FFB84D','#C77DFF','#FF8C42'];
+
+  function resize() {
+    canvas.width = canvas.offsetWidth * devicePixelRatio;
+    canvas.height = canvas.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function spawnBurst() {
+    const w = canvas.offsetWidth, h = canvas.offsetHeight;
+    const x = w * (0.1 + Math.random() * 0.8);
+    const y = h * (0.1 + Math.random() * 0.5);
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const count = 30 + Math.floor(Math.random() * 25);
+    const particles = [];
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI*2*i)/count + Math.random()*0.3;
+      const speed = 1 + Math.random()*3;
+      particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:0.012+Math.random()*0.015,size:1.5+Math.random()*2.5});
+    }
+    bursts.push({particles,color});
+  }
+
+  function animate(time) {
+    ctx.clearRect(0,0,canvas.offsetWidth,canvas.offsetHeight);
+    if (time - lastBurst > (1800/intensity) + Math.random()*1500) { spawnBurst(); lastBurst = time; }
+    bursts.forEach(b => {
+      b.particles.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.025; p.vx*=0.99; p.life-=p.decay;
+        if (p.life>0) {
+          ctx.globalAlpha = Math.max(p.life,0)*0.85;
+          ctx.fillStyle = b.color;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+          ctx.globalAlpha = Math.max(p.life,0)*0.25;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.size*2.5,0,Math.PI*2); ctx.fill();
+        }
+      });
+    });
+    ctx.globalAlpha = 1;
+    bursts = bursts.map(b=>({...b,particles:b.particles.filter(p=>p.life>0)})).filter(b=>b.particles.length>0);
+    raf = requestAnimationFrame(animate);
+  }
+  raf = requestAnimationFrame(animate);
+}
+
+// ---- MASSIVE FIREWORKS ----
+function startMassiveShow() {
+  const canvas = document.getElementById('canvas-massive');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const colors = ['#FF4D4D','#FFD93D','#6BCB77','#4D96FF','#FF6BCB','#FFB84D','#C77DFF','#FF8C42','#FFFFFF'];
+  let particles = [], trails = [], raf, running = true;
+
+  function launchRocket() {
+    const startX = canvas.width*(0.1+Math.random()*0.8);
+    const targetY = canvas.height*(0.15+Math.random()*0.35);
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    trails.push({x:startX,y:canvas.height+10,targetY,vy:-(8+Math.random()*4),color});
+  }
+  function explode(x,y,color) {
+    const count = 70+Math.floor(Math.random()*50);
+    for (let i=0;i<count;i++) {
+      const angle=(Math.PI*2*i)/count+Math.random()*0.2;
+      const speed=2+Math.random()*5;
+      particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:0.008+Math.random()*0.012,size:2+Math.random()*3,color});
+    }
+    for (let i=0;i<12;i++) {
+      const angle=Math.random()*Math.PI*2;
+      particles.push({x,y,vx:Math.cos(angle)*Math.random()*1.5,vy:Math.sin(angle)*Math.random()*1.5,life:1,decay:0.03,size:4+Math.random()*3,color:'#FFFFFF'});
+    }
+  }
+  const timeouts=[];
+  for (let i=0;i<10;i++) timeouts.push(setTimeout(launchRocket,i*280+Math.random()*150));
+
+  function animate() {
+    if (!running) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    trails.forEach(t=>{
+      t.y+=t.vy;
+      ctx.globalAlpha=0.9; ctx.fillStyle=t.color;
+      ctx.beginPath(); ctx.arc(t.x,t.y,2.5,0,Math.PI*2); ctx.fill();
+      if (t.y<=t.targetY) { explode(t.x,t.y,t.color); t.done=true; }
+    });
+    trails=trails.filter(t=>!t.done);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.045; p.vx*=0.985; p.life-=p.decay;
+      if (p.life>0) {
+        ctx.globalAlpha=Math.max(p.life,0); ctx.fillStyle=p.color;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+        ctx.globalAlpha=Math.max(p.life,0)*0.3;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.size*3,0,Math.PI*2); ctx.fill();
+      }
+    });
+    particles=particles.filter(p=>p.life>0);
+    ctx.globalAlpha=1;
+    raf=requestAnimationFrame(animate);
+  }
+  raf=requestAnimationFrame(animate);
+  setTimeout(()=>{running=false;cancelAnimationFrame(raf);canvas.style.display='none';},4200);
+}
+
+// ---- SOUND ----
+function playFirecrackerSounds() {
+  try {
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    const ctx=new AudioCtx();
+    function pop(delay,freq,dur,vol) {
+      const t0=ctx.currentTime+delay;
+      const osc=ctx.createOscillator();
+      const gain=ctx.createGain();
+      const bufferSize=ctx.sampleRate*dur;
+      const buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
+      const data=buffer.getChannelData(0);
+      for (let i=0;i<bufferSize;i++) data[i]=(Math.random()*2-1)*Math.pow(1-i/bufferSize,2);
+      const ns=ctx.createBufferSource();
+      ns.buffer=buffer;
+      const ng=ctx.createGain();
+      ng.gain.setValueAtTime(vol*0.6,t0);
+      ng.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+      ns.connect(ng); ng.connect(ctx.destination); ns.start(t0);
+      osc.type='sine'; osc.frequency.setValueAtTime(freq,t0);
+      osc.frequency.exponentialRampToValueAtTime(freq*0.3,t0+dur);
+      gain.gain.setValueAtTime(vol,t0);
+      gain.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(t0); osc.stop(t0+dur); ns.stop(t0+dur);
+    }
+    for (let i=0;i<10;i++) pop(i*0.28+Math.random()*0.1,300+Math.random()*400,0.35+Math.random()*0.25,0.18+Math.random()*0.12);
+  } catch(e) {}
+}
+
+// ---- IMAGE UPLOAD ----
+function triggerUpload(inputId, tileId) {
+  document.getElementById(inputId).click();
+}
+function loadImg(input, tileId) {
+  const file = input.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const tile = document.getElementById(tileId);
+    tile.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#111;" /><div class="img-change">✏️ Change</div>`;
+    tile.onclick = () => { input.click(); };
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---- MOMENTS ----
+const MOMENTS = [
+  {title:'First time i take your hand (12th November,2025)',emoji:'👀',accent:'#FF6B9D',image:'gublu 4.jpeg',defaultDesc:' For the very first time ami tor haat ta dhorechilam  ...dumdum e amader dekha tui college theke asli mone ache khubi speciall moment amr r tor jonne ....Sei din amar prothom feel hoyehchilo..something i acheived finLLY '},
+  {title:'First video call(23rd february,2025)',emoji:'📱',accent:'#4D96FF',image:'gublu3.jpeg',defaultDesc:'Our first long-distance moment —  Mone ache etui tor collge eer function e gechilis amader prepllan kkorachilo je tui college giye amake video call korbi...ar first time amake video call kore mukh ar dekhachena pocha ekta mukhe e dekhacchilina trpr dekhlam finally  cute moment , onek kotha holo sei bapre '},
+  {title:'First photo given (25th march,2024)',emoji:'📸',accent:'#FFD93D',image:'gulbu2.jpeg',defaultDesc:'A beautiful gift of a smile —  Ami first time toke dekhechilam ore babare ki misti dekhte meytake (tui re ...and chobi ta eto bhalo lage je ei chobitar ami pirture o draw korechilamseta ekhono ache sona hehe.jotne rakha che tui jobe nibi toke ami debo pic ta .,,amr tor chobi dekhe mone hoyechilo meyta eto sundor f=dekhte boyfriend ache nischoi ...pore jante pari nei 2to bandhuu ache bass ...amr je mone ki annodo ami jani tor firdt photo eta.....ekhono dkehle khubi bhalo lage amar.)'},
+  {title:'First time we went out(23rd january,2026) ',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'A token of love — Sottie bolte eiiii moment amar kache shob theke serra momnet becuz gublu....tui litarlly  periods niye  amar sathe dekha korte esechili ar ami  periods er time toke niye dik oidik gelam + toke ami bokao diyechilam.....but im sorry shob somoye e kharao ota bhbale je keno boka diyechilam ...but...to be very honest oi1ghanta amde rshob theke memorabe time ami r tuikatiyechilam..toke mayer hate khaddo khaiye dilam ..ektu golpo adda ..toek first time kiss korlam...tui amake gale kiss korli ajo feel hoy egulo bhable sottie re ...ar korteo icche bol...kache asle hbe ekdin abar....but ei moment ar sottie favourate bjhli jotoi time kom katano hoyechilo ik.,....but best time ketechilo etate ....umahhh umahh uamhh umahhh umahhh sona ma amar'},
+  {title:'First gift(2023 first massage)',emoji:'🎁',accent:'#C77DFF',image:'bestg.jpeg',defaultDesc:'first gift is hoccche ...jefin tui amake first msg  korechlis setai best chilo tor deoa .....2023 june july mashe ...ekdin sabdhey bela ekta -Hi- eshechilo otai best and first gift.'},
+];
+
+function buildMoments() {
+  const container = document.getElementById('moments-container');
+
+  MOMENTS.forEach((m, idx) => {
+    const tileId = `moment-tile-${idx}`;
+    const uploadId = `moment-upload-${idx}`;
+
+    const div = document.createElement('div');
+    div.className = 'moment-card';
+    div.style.borderLeftColor = m.accent + '30';
+
+    div.innerHTML = `
+      <div class="timeline-dot"
+           style="border:3px solid ${m.accent};
+                  box-shadow:0 0 14px ${m.accent}80;">
+      </div>
+
+      <div style="display:flex;
+                  align-items:center;
+                  gap:14px;
+                  margin-bottom:18px;">
+        <span style="font-size:34px;">${m.emoji}</span>
+
+        <h3 style="margin:0;
+                   font-size:21px;
+                   font-weight:700;
+                   color:${m.accent};">
+          ${m.title}
+        </h3>
+      </div>
+
+      <textarea class="editable-msg"
+                style="margin-bottom:22px;
+                       min-height:90px;">
+${m.defaultDesc}
+      </textarea>
+
+      <!-- PHOTO BOX -->
+      <div class="img-tile"
+           id="${tileId}"
+           style="aspect-ratio:9/16;
+                  max-width:300px;
+                  margin:auto;">
+
+        <img src="${m.image}"
+             style="width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    object-position:center;
+                    display:block;" />
+
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+// ---- PAGE NAV ----
+let homeStarsReady = false;
+
+function showHome() {
+  document.getElementById('story').style.display = 'none';
+  document.getElementById('home').style.display = 'flex';
+  document.getElementById('pre-reveal').style.display = 'block';
+  document.getElementById('post-reveal').style.display = 'none';
+  document.body.scrollTop = 0;
+  if (!homeStarsReady) {
+    createStarField('stars-home', 80);
+    startAmbient('canvas-home', 1);
+    homeStarsReady = true;
+  }
+}
+
+function showStory() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('story').style.display = 'block';
+  document.body.scrollTop = 0;
+}
+
+document.getElementById('heart-btn').onclick = () => {
+  document.getElementById('pre-reveal').style.display = 'none';
+  document.getElementById('post-reveal').style.display = 'block';
+  startMassiveShow();
+  playFirecrackerSounds();
+};
+
+document.getElementById('go-story-btn').onclick = showStory;
+document.getElementById('go-home-btn').onclick = showHome;
+
+// ---- INIT ----
+buildMoments();
+createStarField('stars-home', 80);
+startAmbient('canvas-home', 1);
+createStarField('stars-story', 60);
+startAmbient('canvas-story', 0.7);
+</script>
+</body>
+</html>
