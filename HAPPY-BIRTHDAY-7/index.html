@@ -1046,8 +1046,13 @@
 
     <!-- ════════════════════════════════════════════
      CONFETTI CANVAS (fixed overlay)
-═════════════════════════════════════════════ -->
+══════════════════════════════════════════════ -->
     <canvas id="confetti-canvas"></canvas>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="Happy Birthday (Background Score).mp3" type="audio/mpeg">
+    </audio>
 
     <!-- ════════════════════════════════════════════
      SECTION 1 · HERO
@@ -1395,6 +1400,7 @@
         }
 
         /* ─── MUSIC TOGGLE BUTTON ─── */
+        const bgMusic = document.getElementById('bg-music');
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'music-toggle-btn';
         toggleBtn.className = 'glass';
@@ -1404,29 +1410,26 @@
         toggleBtn.addEventListener('click', toggleMusic);
 
         function toggleMusic() {
-            initAudio();
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            if (isPlaying) {
-                isPlaying = false;
-                clearTimeout(loopTimeout);
-                toggleBtn.innerHTML = '🔇';
-                toggleBtn.classList.remove('playing');
-            } else {
-                isPlaying = true;
+            if (bgMusic.paused) {
+                bgMusic.play();
                 toggleBtn.innerHTML = '🎵';
                 toggleBtn.classList.add('playing');
-                playLoop();
+            } else {
+                bgMusic.pause();
+                toggleBtn.innerHTML = '🔇';
+                toggleBtn.classList.remove('playing');
             }
         }
 
-        document.addEventListener('click', () => {
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }, { once: true });
+        // Auto-play music on first user interaction (browser policy)
+        function autoPlayMusic() {
+            bgMusic.play().then(() => {
+                toggleBtn.innerHTML = '🎵';
+                toggleBtn.classList.add('playing');
+            }).catch(() => {});
+            document.removeEventListener('click', autoPlayMusic);
+        }
+        document.addEventListener('click', autoPlayMusic, { once: true });
 
         /* ─── COUNTDOWN ─────────────────────────────── */
         function updateCountdown() {
