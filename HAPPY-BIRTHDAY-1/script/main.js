@@ -246,10 +246,10 @@ const animationTimeline = () => {
         "+=1"
     );
 
-    // Restart Animation on click
+    // Go to next page on click
     const replyBtn = document.getElementById("replay");
     replyBtn.addEventListener("click", () => {
-        tl.restart();
+        window.location.href = '../HAPPY-BIRTHDAY-7/index.html';
     });
 
     // Click anywhere to advance animation
