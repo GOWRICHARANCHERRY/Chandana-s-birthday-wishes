@@ -249,7 +249,7 @@ const animationTimeline = () => {
     // Go to next page on click
     const replyBtn = document.getElementById("replay");
     replyBtn.addEventListener("click", () => {
-        window.location.href = '../HAPPY-BIRTHDAY-7/index.html';
+        window.location.href = '../HAPPY-BIRTHDAY-4/index.html';
     });
 
     // Click anywhere to advance animation
