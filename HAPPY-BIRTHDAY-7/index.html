@@ -1050,7 +1050,7 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Background Music -->
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop autoplay>
         <source src="Happy Birthday (Background Score).mp3" type="audio/mpeg">
     </audio>
 
@@ -1401,11 +1401,19 @@
 
         /* ─── MUSIC TOGGLE BUTTON ─── */
         const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.6;
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'music-toggle-btn';
         toggleBtn.className = 'glass';
         toggleBtn.innerHTML = '🎵';
         document.body.appendChild(toggleBtn);
+
+        // Try to play immediately
+        bgMusic.play().then(() => {
+            toggleBtn.classList.add('playing');
+        }).catch(() => {
+            // Autoplay blocked — will play on first interaction
+        });
 
         toggleBtn.addEventListener('click', toggleMusic);
 
@@ -1421,15 +1429,24 @@
             }
         }
 
-        // Auto-play music on first user interaction (browser policy)
-        function autoPlayMusic() {
-            bgMusic.play().then(() => {
-                toggleBtn.innerHTML = '🎵';
-                toggleBtn.classList.add('playing');
-            }).catch(() => {});
-            document.removeEventListener('click', autoPlayMusic);
-        }
-        document.addEventListener('click', autoPlayMusic, { once: true });
+        // Fallback: play on first user interaction
+        document.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    toggleBtn.innerHTML = '🎵';
+                    toggleBtn.classList.add('playing');
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        document.addEventListener('touchstart', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    toggleBtn.innerHTML = '🎵';
+                    toggleBtn.classList.add('playing');
+                }).catch(() => {});
+            }
+        }, { once: true });
 
         /* ─── COUNTDOWN ─────────────────────────────── */
         function updateCountdown() {
