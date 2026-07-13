@@ -374,7 +374,8 @@ html, body { width:100%; height:100%; background:var(--dark); overflow:hidden; f
 <div id="movieEnd">
   <p class="movie-line" id="ml1">you are the one&#x2026;</p>
   <p class="movie-line" id="ml2">my favourite person.</p>
-  <p class="movie-line" id="ml3" style="font-size:clamp(.9rem,2.5vw,1.1rem);color:rgba(212,180,131,.6);">&#x2014; always, urs gowri charan &#x2665;</p>
+  <p class="movie-line" id="ml3">&#x2014; always, urs gowri charan &#x2665;</p>
+  <p class="movie-line" id="ml4" style="margin-top:1.5rem;"><a href="../HAPPY-BIRTHDAY-7/index.html" style="color:rgba(212,180,131,.9);text-decoration:underline;font-family:'IM Fell English',serif;font-style:italic;cursor:pointer;">click here to see more</a></p>
 </div>
 
 <!-- HIDDEN CAKE -->
@@ -900,7 +901,7 @@ function initFireworks() {
 function showMovieEnd() {
   const me = document.getElementById('movieEnd');
   me.classList.add('show');
-  ['ml1','ml2','ml3'].forEach((id,i)=>{
+  ['ml1','ml2','ml3','ml4'].forEach((id,i)=>{
     setTimeout(()=>document.getElementById(id).classList.add('show'), i*2000);
   });
   setTimeout(()=>{
