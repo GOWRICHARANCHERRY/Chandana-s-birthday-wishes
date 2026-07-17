@@ -47,9 +47,21 @@ canvas.massive{position:fixed;top:0;left:0;pointer-events:none;z-index:50;}
 #music-toggle-btn:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 6px 25px rgba(200,65,90,0.5);}
 #music-toggle-btn.playing{animation:pulse-music 2s infinite;}
 @keyframes pulse-music{0%{box-shadow:0 0 0 0 rgba(200,65,90,0.7);}70%{box-shadow:0 0 0 10px rgba(200,65,90,0);}100%{box-shadow:0 0 0 0 rgba(200,65,90,0);}}
+#music-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;}
+#music-overlay .play-icon{font-size:80px;animation:heartBeat 1.5s infinite;}
+#music-overlay p{color:#FFD6E0;font-size:20px;margin-top:20px;font-family:'Poppins',sans-serif;}
 </style>
 </head>
 <body>
+
+<div id="music-overlay">
+  <div class="play-icon">🎵</div>
+  <p>Tap to play the birthday song</p>
+</div>
+
+<audio id="bg-music" loop>
+  <source src="birthday-theme.mp3" type="audio/mpeg">
+</audio>
 
 <!-- HOME PAGE -->
 <div id="home" class="page">
@@ -501,9 +513,15 @@ toggleBtn.className = 'glass';
 toggleBtn.innerHTML = '🎵';
 document.body.appendChild(toggleBtn);
 
-bgMusic.play().then(() => {
-  toggleBtn.classList.add('playing');
-}).catch(() => {});
+const musicOverlay = document.getElementById('music-overlay');
+musicOverlay.addEventListener('click', () => {
+  bgMusic.play().then(() => {
+    toggleBtn.classList.add('playing');
+    musicOverlay.style.display = 'none';
+  }).catch(() => {
+    musicOverlay.style.display = 'none';
+  });
+});
 
 toggleBtn.addEventListener('click', toggleMusic);
 
@@ -518,28 +536,6 @@ function toggleMusic() {
     toggleBtn.classList.remove('playing');
   }
 }
-
-document.addEventListener('click', () => {
-  if (bgMusic.paused) {
-    bgMusic.play().then(() => {
-      toggleBtn.innerHTML = '🎵';
-      toggleBtn.classList.add('playing');
-    }).catch(() => {});
-  }
-}, { once: true });
-
-document.addEventListener('touchstart', () => {
-  if (bgMusic.paused) {
-    bgMusic.play().then(() => {
-      toggleBtn.innerHTML = '🎵';
-      toggleBtn.classList.add('playing');
-    }).catch(() => {});
-  }
-}, { once: true });
 </script>
-
-<audio id="bg-music" loop autoplay>
-  <source src="Happy Birthday Theme Video _ Remo _ Sivakarthikeyan, Keerthi Suresh _ Anirudh Ravichander [1nJlDRwmiOI].mp3" type="audio/mpeg">
-</audio>
 </body>
 </html>
