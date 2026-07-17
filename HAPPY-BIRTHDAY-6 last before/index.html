@@ -42,6 +42,11 @@ canvas.massive{position:fixed;top:0;left:0;pointer-events:none;z-index:50;}
 .letter-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,107,157,0.25);border-radius:14px;color:#d9cfe0;font-family:'Poppins',sans-serif;font-size:15px;line-height:1.9;padding:20px;resize:vertical;min-height:180px;outline:none;transition:border 0.3s;}
 .letter-textarea:focus{border-color:rgba(255,107,157,0.6);box-shadow:0 0 20px rgba(255,107,157,0.1);}
 .letter-textarea::placeholder{color:#665575;font-style:italic;}
+
+#music-toggle-btn{position:fixed;bottom:24px;right:24px;width:50px;height:50px;border-radius:50%;z-index:1000;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#FFD6E0;cursor:pointer;box-shadow:0 4px 20px rgba(200,65,90,0.3);transition:transform 0.3s,box-shadow 0.3s,background 0.3s;}
+#music-toggle-btn:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 6px 25px rgba(200,65,90,0.5);}
+#music-toggle-btn.playing{animation:pulse-music 2s infinite;}
+@keyframes pulse-music{0%{box-shadow:0 0 0 0 rgba(200,65,90,0.7);}70%{box-shadow:0 0 0 10px rgba(200,65,90,0);}100%{box-shadow:0 0 0 0 rgba(200,65,90,0);}}
 </style>
 </head>
 <body>
@@ -64,7 +69,7 @@ canvas.massive{position:fixed;top:0;left:0;pointer-events:none;z-index:50;}
       <h2 style="font-family:'Playfair Display',serif;font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.15;" class="shimmer-text">  Happy birthday <br/>to you <br/>My Chandhu  </h2>
       <p style="font-size:clamp(18px,4vw,26px);font-weight:600;color:#ffe4ec;margin-top:22px;letter-spacing:0.5px;">Many many returns of the day to my cute Chandhu ✨</p>
       <div style="font-size:60px;margin-top:30px;animation:floatSlow 4s ease-in-out infinite;">❤️</div>
-      <button class="btn-primary" id="go-story-btn" style="margin-top:50px;">Click here Chandhu for the little surprises 🎁</button>
+      <button class="btn-primary" id="go-story-btn" style="margin-top:50px;">Click here for the little surprises 🎁</button>
     </div>
   </div>
 </div>
@@ -487,6 +492,54 @@ createStarField('stars-home', 80);
 startAmbient('canvas-home', 1);
 createStarField('stars-story', 60);
 startAmbient('canvas-story', 0.7);
+// ---- MUSIC TOGGLE ----
+const bgMusic = document.getElementById('bg-music');
+bgMusic.volume = 0.6;
+const toggleBtn = document.createElement('button');
+toggleBtn.id = 'music-toggle-btn';
+toggleBtn.className = 'glass';
+toggleBtn.innerHTML = '🎵';
+document.body.appendChild(toggleBtn);
+
+bgMusic.play().then(() => {
+  toggleBtn.classList.add('playing');
+}).catch(() => {});
+
+toggleBtn.addEventListener('click', toggleMusic);
+
+function toggleMusic() {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    toggleBtn.innerHTML = '🎵';
+    toggleBtn.classList.add('playing');
+  } else {
+    bgMusic.pause();
+    toggleBtn.innerHTML = '🔇';
+    toggleBtn.classList.remove('playing');
+  }
+}
+
+document.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play().then(() => {
+      toggleBtn.innerHTML = '🎵';
+      toggleBtn.classList.add('playing');
+    }).catch(() => {});
+  }
+}, { once: true });
+
+document.addEventListener('touchstart', () => {
+  if (bgMusic.paused) {
+    bgMusic.play().then(() => {
+      toggleBtn.innerHTML = '🎵';
+      toggleBtn.classList.add('playing');
+    }).catch(() => {});
+  }
+}, { once: true });
 </script>
+
+<audio id="bg-music" loop autoplay>
+  <source src="Happy Birthday Theme Video _ Remo _ Sivakarthikeyan, Keerthi Suresh _ Anirudh Ravichander [1nJlDRwmiOI].mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>
