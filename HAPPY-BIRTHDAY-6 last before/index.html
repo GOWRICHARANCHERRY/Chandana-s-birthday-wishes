@@ -51,7 +51,7 @@ canvas.massive{position:fixed;top:0;left:0;pointer-events:none;z-index:50;}
 </head>
 <body>
 
-<audio id="bg-music" loop autoplay>
+<audio id="bg-music" loop>
   <source src="birthday-theme.mp3" type="audio/mpeg">
 </audio>
 
@@ -487,7 +487,13 @@ document.getElementById('heart-btn').onclick = () => {
   playFirecrackerSounds();
 };
 
-document.getElementById('go-story-btn').onclick = showStory;
+document.getElementById('go-story-btn').onclick = () => {
+  showStory();
+  const bgMusic = document.getElementById('bg-music');
+  bgMusic.play().then(() => {
+    document.getElementById('music-toggle-btn').classList.add('playing');
+  }).catch(() => {});
+};
 document.getElementById('go-home-btn').onclick = showHome;
 
 // ---- INIT ----
