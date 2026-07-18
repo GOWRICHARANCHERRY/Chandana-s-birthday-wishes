@@ -578,6 +578,12 @@ const finalLine = document.getElementById('final-line-0');
 const scrollContainer = document.getElementById('scroll-text-0');
 let wordIndex = 0;
 let scrollStarted = false;
+let userScrolledUp = false;
+
+scrollContainer.addEventListener('scroll', () => {
+  const atBottom = scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight < 30;
+  userScrolledUp = !atBottom;
+});
 
 function scrollNextWord() {
   if (wordIndex < scrollWords.length) {
@@ -592,9 +598,13 @@ function scrollNextWord() {
       });
     });
     wordIndex++;
+    if (!userScrolledUp) {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    }
     setTimeout(scrollNextWord, 250);
   } else {
     finalLine.style.display = 'block';
+    scrollContainer.scrollTop = scrollContainer.scrollHeight;
   }
 }
 
