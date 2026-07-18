@@ -444,7 +444,21 @@ function loadImg(input, tileId) {
 
 // ---- MOMENTS ----
 const MOMENTS = [
-  {title:'First trip we went',emoji:'👀',accent:'#FF6B9D',slideshow:true,defaultDesc:'For the very first time, I held your hand. We met in Dumdum — you were coming from college. I remember it clearly, it was a very special moment for both of us. That day, I felt something I had finally achieved.'},
+  {title:'First trip we went',emoji:'👀',accent:'#FF6B9D',slideshow:true,scrollText:true,defaultDesc:`This trip will always be special to me, not because of the places we visited, but because of the reason behind it. The day before this trip, you were feeling sad, and honestly, seeing you like that never feels right to me. So I called you to my flat and decided that somehow, I had to make you smile again.
+
+That night, we rented a bike and went around Bangalore together. From Vidhan Soudha to Kingfisher Mall, we spent hours just roaming around, talking about random things and forgetting the world for a while. But little did you know, that was only the beginning of our adventure.
+
+The next morning, I woke you up at 4 AM and dragged you out for a ride to Nandi Hills. I still remember you confidently saying, 'It won't be that cold,' and refusing to bring a jacket. Halfway through the ride, the cold proved you wrong, and my jacket somehow became yours. 😂❤️
+
+The ride was magical. The empty roads, the fog, the sunrise, the cold wind, and most importantly, your company. Even today, whenever I think about Nandi Hills, I don't remember the view first. I remember you sitting behind me, enjoying every moment of that ride.
+
+When we finally reached Nandi Hills, I kept looking at you more than the scenery. For the first time in a long time, I saw you genuinely happy. You forgot all the things that were bothering you and smiled freely again. And honestly, seeing that smile was the best part of the entire trip for me.
+
+After that, we went to the Adiyogi Shiva statue at Isha. I wanted you to feel peaceful, to leave all your worries behind, even if it was just for a day. And somehow, everything went perfectly.
+
+By the end of the trip, I wasn't happy because we visited beautiful places. I was happy because the sad girl I met the previous day had disappeared, and the Chandhu I knew was smiling again.
+
+That's what I remember most about this trip. Not the destination, not the photos, not the roads. Just you being happy. ❤️`,finalLine:'My favorite part of this trip wasn\'t Nandi Hills, the sunrise, or the places we visited. It was watching you smile again. ❤️'},
   {title:'First video call(23rd february,2025)',emoji:'📱',accent:'#4D96FF',image:'gublu3.jpeg',defaultDesc:'Our first long-distance moment — I remember you went to your college function, and we had planned that you would video call me from college. The first time you video called me, I could not see your face properly, just a blurry view. And then I finally saw you. Such a cute moment — we talked so much that day.'},
   {title:'First photo given (25th march,2024)',emoji:'📸',accent:'#FFD93D',image:'gulbu2.jpeg',defaultDesc:'A beautiful gift of a smile — I saw you for the first time, and oh my, how sweet you looked (it was you!). And the photo was so beautiful that I even drew it later — I still have it, Chandhu, hehe. Don\'t worry, whenever you want it, I will give it to you. Seeing your photo, I thought — this girl is so beautiful, she must have a boyfriend for sure. Later I found out, no, she just has friends, that\'s all. I know how happy I was in my mind seeing your first photo. Even now, it makes me so happy when I look at it.'},
   {title:'First time we went out(23rd january,2026) ',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'A token of love — To be honest, this moment is the best moment for me because Chandhu… you literally came to meet me during your periods, and I took you around during that time. And I teased you about it… but I am sorry, I always feel bad about teasing you. But to be very honest, that one hour was the most memorable time we spent together. I fed you food with your mother\'s hands, we talked a little, and I kissed you for the first time. You kissed me on the cheek — I still feel it when I think about it. I want to do it again… when we are close, it will happen one day. But this moment is truly my favourite, no matter how little time we had. But it was the best time. Umahhh, umahh, umahhh, umahhh, umahhh, my Chandhu.'},
@@ -482,11 +496,18 @@ function buildMoments() {
         </h3>
       </div>
 
+      ${m.scrollText ? `
+      <div id="scroll-text-${idx}" style="margin-bottom:22px;max-height:200px;overflow:hidden;position:relative;">
+        <p id="scroll-content-${idx}" style="font-size:15.5px;color:#d9cfe0;line-height:1.9;white-space:pre-wrap;"></p>
+        <p id="final-line-${idx}" style="font-size:16px;color:#FF8FAE;font-weight:600;margin-top:16px;display:none;text-align:center;">${m.finalLine}</p>
+      </div>
+      ` : `
       <textarea class="editable-msg"
                 style="margin-bottom:22px;
                        min-height:90px;">
 ${m.defaultDesc}
       </textarea>
+      `}
 
       <!-- PHOTO BOX -->
       ${m.slideshow ? `
@@ -548,6 +569,28 @@ document.getElementById('go-home-btn').onclick = () => {
 
 // ---- INIT ----
 buildMoments();
+
+// Initialize scroll text for first moment
+const scrollText = MOMENTS[0].defaultDesc;
+const scrollWords = scrollText.split(' ');
+const scrollContent = document.getElementById('scroll-content-0');
+const finalLine = document.getElementById('final-line-0');
+const scrollContainer = document.getElementById('scroll-text-0');
+let wordIndex = 0;
+
+function scrollNextWord() {
+  if (wordIndex < scrollWords.length) {
+    scrollContent.textContent += (wordIndex === 0 ? '' : ' ') + scrollWords[wordIndex];
+    wordIndex++;
+    scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    setTimeout(scrollNextWord, 150);
+  } else {
+    finalLine.style.display = 'block';
+  }
+}
+
+// Start scroll when slideshow container is visible
+setTimeout(scrollNextWord, 1000);
 
 // Initialize slideshow for first moment
 const validImages = [
