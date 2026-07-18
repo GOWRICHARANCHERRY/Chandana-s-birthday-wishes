@@ -470,7 +470,7 @@ Then came your first birthday in Bangalore. This time, it was my turn to celebra
 The best thing about those birthdays wasn't the cake, the gifts, or the places we visited. It was the people, the memories, and the happiness we shared. Looking back now, I realize those moments became some of the most beautiful memories of my Bangalore life.
 
 Years may pass, and life may take us to different countries and different paths, but whenever I look at these photos, I don't just see birthdays. I see friendship, laughter, memories, and a person who made those days unforgettable. ❤️`,finalLine:'Two birthdays. Countless memories. One friendship that made them unforgettable. 🎂❤️'},
-  {title:'First photo given (25th march,2024)',emoji:'📸',accent:'#FFD93D',image:'gulbu2.jpeg',defaultDesc:'A beautiful gift of a smile — I saw you for the first time, and oh my, how sweet you looked (it was you!). And the photo was so beautiful that I even drew it later — I still have it, Chandhu, hehe. Don\'t worry, whenever you want it, I will give it to you. Seeing your photo, I thought — this girl is so beautiful, she must have a boyfriend for sure. Later I found out, no, she just has friends, that\'s all. I know how happy I was in my mind seeing your first photo. Even now, it makes me so happy when I look at it.'},
+  {title:'Ethnic day and fest in my college',emoji:'🪔',accent:'#FFD93D',slideshow:true,defaultDesc:'Add your text here later.'},
   {title:'First time we went out(23rd january,2026) ',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'A token of love — To be honest, this moment is the best moment for me because Chandhu… you literally came to meet me during your periods, and I took you around during that time. And I teased you about it… but I am sorry, I always feel bad about teasing you. But to be very honest, that one hour was the most memorable time we spent together. I fed you food with your mother\'s hands, we talked a little, and I kissed you for the first time. You kissed me on the cheek — I still feel it when I think about it. I want to do it again… when we are close, it will happen one day. But this moment is truly my favourite, no matter how little time we had. But it was the best time. Umahhh, umahh, umahhh, umahhh, umahhh, my Chandhu.'},
   {title:'First gift(2023 first massage)',emoji:'🎁',accent:'#C77DFF',image:'bestg.jpeg',defaultDesc:'The first gift was… the first message you sent me — that was the best thing you ever gave me. In June or July of 2023, one day, a simple "Hi" came from you. That was the best and first gift.'},
 ];
@@ -678,6 +678,73 @@ const observer2 = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 observer2.observe(document.getElementById('slideshow-1'));
+
+// Third moment slideshow - Ethnic day and fest
+const festImages = [
+  'fest and ethinic day/IMG_20220521_124029.jpg','fest and ethinic day/IMG_20220521_124032.jpg',
+  'fest and ethinic day/IMG_20220521_134039.jpg','fest and ethinic day/IMG_20220521_134042.jpg',
+  'fest and ethinic day/IMG_20220521_134045.jpg','fest and ethinic day/IMG_20220521_134056.jpg',
+  'fest and ethinic day/IMG_20220521_134059.jpg','fest and ethinic day/IMG_20220521_134101.jpg',
+  'fest and ethinic day/IMG_20220521_135858.jpg','fest and ethinic day/IMG_20220521_135903.jpg',
+  'fest and ethinic day/IMG_20220521_135906.jpg','fest and ethinic day/IMG_20220521_140058.jpg',
+  'fest and ethinic day/IMG_20220521_140100.jpg','fest and ethinic day/IMG_20220521_140405.jpg',
+  'fest and ethinic day/IMG_20220521_140408.jpg','fest and ethinic day/IMG_20220521_140409.jpg',
+  'fest and ethinic day/IMG_20220521_141349.jpg','fest and ethinic day/IMG_20220521_141351.jpg',
+  'fest and ethinic day/IMG_20220521_141352.jpg','fest and ethinic day/IMG_20220521_141359.jpg',
+  'fest and ethinic day/IMG_20220521_141401.jpg','fest and ethinic day/IMG_20220521_144820.jpg',
+  'fest and ethinic day/IMG_20220521_154046.jpg','fest and ethinic day/IMG_20220521_154049.jpg',
+  'fest and ethinic day/IMG_20220521_155232.jpg',
+  'fest and ethinic day/IMG_3394.JPG','fest and ethinic day/IMG_3395.JPG','fest and ethinic day/IMG_3396.JPG',
+  'fest and ethinic day/IMG_3780.JPG','fest and ethinic day/IMG_3781.JPG','fest and ethinic day/IMG_3782.JPG',
+  'fest and ethinic day/IMG_3783.JPG','fest and ethinic day/IMG_3784.JPG','fest and ethinic day/IMG_3785.JPG',
+  'fest and ethinic day/IMG_3869.JPG','fest and ethinic day/IMG_3876.JPG',
+  'fest and ethinic day/Snapchat-1148363975.jpg','fest and ethinic day/Snapchat-120943366.jpg',
+  'fest and ethinic day/Snapchat-1373981040.jpg','fest and ethinic day/Snapchat-1422502104.jpg',
+  'fest and ethinic day/Snapchat-1504988650.jpg','fest and ethinic day/Snapchat-1668403761.jpg',
+  'fest and ethinic day/Snapchat-1742283774.jpg','fest and ethinic day/Snapchat-1771437465.jpg',
+  'fest and ethinic day/Snapchat-1793099454.jpg','fest and ethinic day/Snapchat-1853302997.jpg',
+  'fest and ethinic day/Snapchat-1862999764.jpg','fest and ethinic day/Snapchat-195972891.jpg',
+  'fest and ethinic day/Snapchat-2120866176.jpg','fest and ethinic day/Snapchat-261662742.jpg',
+  'fest and ethinic day/Snapchat-367611032.jpg','fest and ethinic day/Snapchat-4096422.jpg',
+  'fest and ethinic day/Snapchat-434099122.jpg','fest and ethinic day/Snapchat-500559.jpg',
+  'fest and ethinic day/Snapchat-747821285.jpg','fest and ethinic day/Snapchat-943309713.jpg'
+];
+
+let currentSlide3 = 0;
+const slideshowContainer3 = document.getElementById('slideshow-2');
+let interval2;
+if (slideshowContainer3) {
+  const img3 = document.createElement('img');
+  img3.src = festImages[0];
+  img3.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
+  slideshowContainer3.appendChild(img3);
+
+  interval2 = setInterval(() => {
+    currentSlide3 = (currentSlide3 + 1) % festImages.length;
+    img3.src = festImages[currentSlide3];
+  }, 2000);
+}
+
+// Pause/play 3rd slideshow based on visibility
+const slideshowObserver3 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.target.id === 'slideshow-2') {
+      if (entry.isIntersecting) {
+        if (!interval2 && slideshowContainer3) {
+          interval2 = setInterval(() => {
+            currentSlide3 = (currentSlide3 + 1) % festImages.length;
+            document.querySelector('#slideshow-2 img').src = festImages[currentSlide3];
+          }, 2000);
+        }
+      } else {
+        clearInterval(interval2);
+        interval2 = null;
+      }
+    }
+  });
+}, { threshold: 0.1 });
+
+if (slideshowContainer3) slideshowObserver3.observe(slideshowContainer3);
 
 // Initialize slideshow for first moment
 const validImages = [
