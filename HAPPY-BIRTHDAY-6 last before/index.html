@@ -541,7 +541,9 @@ document.getElementById('heart-btn').onclick = () => {
 document.getElementById('go-story-btn').onclick = () => {
   showStory();
   const bgMusic = document.getElementById('bg-music');
+  bgMusic.currentTime = 6;
   bgMusic.play().then(() => {
+    bgMusic.currentTime = 6;
     document.getElementById('music-toggle-btn').classList.add('playing');
   }).catch(() => {});
 };
