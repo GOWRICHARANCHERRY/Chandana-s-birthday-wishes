@@ -5,7 +5,9 @@ window.addEventListener('load', () => {
         overlay.style.display = 'none';
         const song = document.querySelector('.song');
         song.currentTime = 6;
-        song.play();
+        song.play().then(() => {
+            song.currentTime = 6;
+        }).catch(() => {});
         animationTimeline();
     });
 });
