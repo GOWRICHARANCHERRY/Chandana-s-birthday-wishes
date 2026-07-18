@@ -3,7 +3,9 @@ window.addEventListener('load', () => {
     const overlay = document.getElementById('start-overlay');
     overlay.addEventListener('click', () => {
         overlay.style.display = 'none';
-        document.querySelector('.song').play();
+        const song = document.querySelector('.song');
+        song.currentTime = 6;
+        song.play();
         animationTimeline();
     });
 });
