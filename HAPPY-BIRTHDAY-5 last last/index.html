@@ -192,15 +192,20 @@ function createDiv(height, width) {
 </head>
 <body>
 
-<audio id="bg-music" loop autoplay>
+<audio id="bg-music" loop>
     <source src="Happy Birthday Song.mp3" type="audio/mpeg">
 </audio>
+
+<div id="tap-overlay" style="text-align:center;">
+  <p style="color:#fff;font-size:24px;font-family:'Poppins',sans-serif;">Tap anywhere to play 🎵</p>
+</div>
 
 <style>
 #music-toggle-btn{position:fixed;bottom:24px;right:24px;width:50px;height:50px;border-radius:50%;z-index:1000;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#FFD6E0;cursor:pointer;box-shadow:0 4px 20px rgba(200,65,90,0.3);transition:transform 0.3s,box-shadow 0.3s,background 0.3s;}
 #music-toggle-btn:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 6px 25px rgba(200,65,90,0.5);}
 #music-toggle-btn.playing{animation:pulse-music 2s infinite;}
 @keyframes pulse-music{0%{box-shadow:0 0 0 0 rgba(200,65,90,0.7);}70%{box-shadow:0 0 0 10px rgba(200,65,90,0);}100%{box-shadow:0 0 0 0 rgba(200,65,90,0);}}
+#tap-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 </style>
 
     <div id="wrapper">
@@ -343,20 +348,14 @@ function createDiv(height, width) {
     toggleBtn.innerHTML = '🎵';
     document.body.appendChild(toggleBtn);
 
-    bgMusic.currentTime = 11;
-    bgMusic.play().then(() => {
+    document.getElementById('tap-overlay').addEventListener('click', () => {
+      document.getElementById('tap-overlay').style.display = 'none';
       bgMusic.currentTime = 11;
-      toggleBtn.classList.add('playing');
-    }).catch(() => {});
-
-    document.addEventListener('click', () => {
-      if (bgMusic.paused) {
+      bgMusic.play().then(() => {
         bgMusic.currentTime = 11;
-        bgMusic.play().then(() => {
-          toggleBtn.classList.add('playing');
-        }).catch(() => {});
-      }
-    }, { once: true });
+        toggleBtn.classList.add('playing');
+      }).catch(() => {});
+    });
 
     toggleBtn.addEventListener('click', () => {
       if (bgMusic.paused) {
