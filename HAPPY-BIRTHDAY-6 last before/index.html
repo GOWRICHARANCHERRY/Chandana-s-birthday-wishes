@@ -444,7 +444,7 @@ function loadImg(input, tileId) {
 
 // ---- MOMENTS ----
 const MOMENTS = [
-  {title:'First trip we went',emoji:'👀',accent:'#FF6B9D',slideshow:true,scrollText:true,defaultDesc:`This trip will always be special to me, not because of the places we visited, but because of the reason behind it. The day before this trip, you were feeling sad, and honestly, seeing you like that never feels right to me. So I called you to my flat and decided that somehow, I had to make you smile again.
+  {title:'First trip we went',emoji:'🚲',accent:'#FF6B9D',slideshow:true,scrollText:true,defaultDesc:`This trip will always be special to me, not because of the places we visited, but because of the reason behind it. The day before this trip, you were feeling sad, and honestly, seeing you like that never feels right to me. So I called you to my flat and decided that somehow, I had to make you smile again.
 
 That night, we rented a bike and went around Bangalore together. From Vidhan Soudha to Kingfisher Mall, we spent hours just roaming around, talking about random things and forgetting the world for a while. But little did you know, that was only the beginning of our adventure.
 
@@ -497,7 +497,7 @@ function buildMoments() {
       </div>
 
       ${m.scrollText ? `
-      <div id="scroll-text-${idx}" style="margin-bottom:22px;height:120px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px;background:rgba(255,255,255,0.04);">
+      <div id="scroll-text-${idx}" style="margin-bottom:22px;height:120px;overflow-y:auto;position:relative;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px;background:rgba(255,255,255,0.04);">
         <p id="scroll-content-${idx}" style="font-size:15px;color:#d9cfe0;line-height:1.9;white-space:pre-wrap;margin:0;"></p>
       </div>
       <p id="final-line-${idx}" style="font-size:16px;color:#FF8FAE;font-weight:600;margin-bottom:22px;display:none;text-align:center;">${m.finalLine}</p>
@@ -586,7 +586,7 @@ function scrollNextWord() {
     if (scrollContent.scrollHeight > scrollContainer.clientHeight) {
       scrollContainer.scrollTop += lineHeight;
     }
-    setTimeout(scrollNextWord, 150);
+    setTimeout(scrollNextWord, 400);
   } else {
     finalLine.style.display = 'block';
   }
