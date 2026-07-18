@@ -498,7 +498,7 @@ function buildMoments() {
 
       ${m.scrollText ? `
       <div id="scroll-text-${idx}" style="margin-bottom:22px;height:120px;overflow-y:auto;position:relative;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px;background:rgba(255,255,255,0.04);">
-        <p id="scroll-content-${idx}" style="font-size:15px;color:#d9cfe0;line-height:1.9;white-space:pre-wrap;margin:0;"></p>
+        <p id="scroll-content-${idx}" style="font-size:15px;color:#d9cfe0;line-height:1.9;margin:0;"></p>
       </div>
       <p id="final-line-${idx}" style="font-size:16px;color:#FF8FAE;font-weight:600;margin-bottom:22px;display:none;text-align:center;">${m.finalLine}</p>
       ` : `
@@ -581,12 +581,17 @@ let scrollStarted = false;
 
 function scrollNextWord() {
   if (wordIndex < scrollWords.length) {
-    scrollContent.textContent += (wordIndex === 0 ? '' : ' ') + scrollWords[wordIndex];
+    const span = document.createElement('span');
+    span.style.opacity = '0';
+    span.style.transition = 'opacity 0.4s ease';
+    span.textContent = (wordIndex === 0 ? '' : ' ') + scrollWords[wordIndex];
+    scrollContent.appendChild(span);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        span.style.opacity = '1';
+      });
+    });
     wordIndex++;
-    const lineHeight = parseFloat(getComputedStyle(scrollContent).lineHeight);
-    if (scrollContent.scrollHeight > scrollContainer.clientHeight) {
-      scrollContainer.scrollTop += lineHeight;
-    }
     setTimeout(scrollNextWord, 250);
   } else {
     finalLine.style.display = 'block';
