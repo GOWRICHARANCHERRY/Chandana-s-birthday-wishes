@@ -633,13 +633,14 @@ const validImages = [
 
 let currentSlide = 0;
 const slideshowContainer = document.getElementById('slideshow-0');
+let interval0;
 if (slideshowContainer) {
   const img = document.createElement('img');
   img.src = validImages[0];
   img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
   slideshowContainer.appendChild(img);
 
-  setInterval(() => {
+  interval0 = setInterval(() => {
     currentSlide = (currentSlide + 1) % validImages.length;
     img.src = validImages[currentSlide];
   }, 2000);
@@ -679,17 +680,35 @@ const birthdayImages = [
 
 let currentSlide2 = 0;
 const slideshowContainer2 = document.getElementById('slideshow-1');
+let interval1;
 if (slideshowContainer2) {
   const img2 = document.createElement('img');
   img2.src = birthdayImages[0];
   img2.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
   slideshowContainer2.appendChild(img2);
 
-  setInterval(() => {
+  interval1 = setInterval(() => {
     currentSlide2 = (currentSlide2 + 1) % birthdayImages.length;
     img2.src = birthdayImages[currentSlide2];
   }, 2000);
 }
+
+// Pause/play slideshows based on visibility
+const slideshowObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.target.id === 'slideshow-0') {
+      if (entry.isIntersecting) { if (!interval0) interval0 = setInterval(() => { currentSlide = (currentSlide + 1) % validImages.length; document.querySelector('#slideshow-0 img').src = validImages[currentSlide]; }, 2000); }
+      else { clearInterval(interval0); interval0 = null; }
+    }
+    if (entry.target.id === 'slideshow-1') {
+      if (entry.isIntersecting) { if (!interval1) interval1 = setInterval(() => { currentSlide2 = (currentSlide2 + 1) % birthdayImages.length; document.querySelector('#slideshow-1 img').src = birthdayImages[currentSlide2]; }, 2000); }
+      else { clearInterval(interval1); interval1 = null; }
+    }
+  });
+}, { threshold: 0.1 });
+
+if (slideshowContainer) slideshowObserver.observe(slideshowContainer);
+if (slideshowContainer2) slideshowObserver.observe(slideshowContainer2);
 
 createStarField('stars-home', 80);
 startAmbient('canvas-home', 1);
