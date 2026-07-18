@@ -190,7 +190,7 @@ Gowri ❤️</p>
 
   <!-- Back -->
   <div class="content" style="text-align:center;margin-top:60px;padding-bottom:20px;">
-    <button class="btn-back" id="go-home-btn">← Back to Beginning</button>
+    <button class="btn-back" id="go-home-btn">← Last one</button>
   </div>
 </div>
 
@@ -545,7 +545,9 @@ document.getElementById('go-story-btn').onclick = () => {
     document.getElementById('music-toggle-btn').classList.add('playing');
   }).catch(() => {});
 };
-document.getElementById('go-home-btn').onclick = showHome;
+document.getElementById('go-home-btn').onclick = () => {
+  window.location.href = '../HAPPY-BIRTHDAY-5 last last/index.html';
+};
 
 // ---- INIT ----
 buildMoments();
