@@ -459,7 +459,7 @@ After that, we went to the Adiyogi Shiva statue at Isha. I wanted you to feel pe
 By the end of the trip, I wasn't happy because we visited beautiful places. I was happy because the sad girl I met the previous day had disappeared, and the Chandhu I knew was smiling again.
 
 That's what I remember most about this trip. Not the destination, not the photos, not the roads. Just you being happy. ❤️`,finalLine:'My favorite part of this trip wasn\'t Nandi Hills, the sunrise, or the places we visited. It was watching you smile again. ❤️'},
-  {title:'1st birthday celebrations of us',emoji:'🎂',accent:'#4D96FF',image:'gublu3.jpeg',defaultDesc:'Our first long-distance moment — I remember you went to your college function, and we had planned that you would video call me from college. The first time you video called me, I could not see your face properly, just a blurry view. And then I finally saw you. Such a cute moment — we talked so much that day.'},
+  {title:'1st birthday celebrations of us',emoji:'🎂',accent:'#4D96FF',slideshow:true,image:'gublu3.jpeg',defaultDesc:'Our first long-distance moment — I remember you went to your college function, and we had planned that you would video call me from college. The first time you video called me, I could not see your face properly, just a blurry view. And then I finally saw you. Such a cute moment — we talked so much that day.'},
   {title:'First photo given (25th march,2024)',emoji:'📸',accent:'#FFD93D',image:'gulbu2.jpeg',defaultDesc:'A beautiful gift of a smile — I saw you for the first time, and oh my, how sweet you looked (it was you!). And the photo was so beautiful that I even drew it later — I still have it, Chandhu, hehe. Don\'t worry, whenever you want it, I will give it to you. Seeing your photo, I thought — this girl is so beautiful, she must have a boyfriend for sure. Later I found out, no, she just has friends, that\'s all. I know how happy I was in my mind seeing your first photo. Even now, it makes me so happy when I look at it.'},
   {title:'First time we went out(23rd january,2026) ',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'A token of love — To be honest, this moment is the best moment for me because Chandhu… you literally came to meet me during your periods, and I took you around during that time. And I teased you about it… but I am sorry, I always feel bad about teasing you. But to be very honest, that one hour was the most memorable time we spent together. I fed you food with your mother\'s hands, we talked a little, and I kissed you for the first time. You kissed me on the cheek — I still feel it when I think about it. I want to do it again… when we are close, it will happen one day. But this moment is truly my favourite, no matter how little time we had. But it was the best time. Umahhh, umahh, umahhh, umahhh, umahhh, my Chandhu.'},
   {title:'First gift(2023 first massage)',emoji:'🎁',accent:'#C77DFF',image:'bestg.jpeg',defaultDesc:'The first gift was… the first message you sent me — that was the best thing you ever gave me. In June or July of 2023, one day, a simple "Hi" came from you. That was the best and first gift.'},
@@ -642,6 +642,52 @@ if (slideshowContainer) {
   setInterval(() => {
     currentSlide = (currentSlide + 1) % validImages.length;
     img.src = validImages[currentSlide];
+  }, 2000);
+}
+
+// Second moment slideshow - 1st birthday
+const birthdayImages = [
+  '1st birthday/111517.JPEG','1st birthday/111525.JPEG','1st birthday/111526.JPEG',
+  '1st birthday/111528.JPEG','1st birthday/111529 2.JPEG',
+  '1st birthday/IMG_9627.JPG','1st birthday/IMG_9629.JPG','1st birthday/IMG_9630.JPG',
+  '1st birthday/IMG_9631.JPG','1st birthday/IMG_9632.JPG','1st birthday/IMG_9633.JPG',
+  '1st birthday/IMG_9635.JPG','1st birthday/IMG_9636.JPG','1st birthday/IMG_9637.JPG',
+  '1st birthday/IMG_9638.JPG','1st birthday/IMG_9639.jpg','1st birthday/IMG_9640.jpg',
+  '1st birthday/IMG_9641.jpg','1st birthday/IMG_9642.jpg','1st birthday/IMG_9643.JPG',
+  '1st birthday/IMG_9644 2.jpg','1st birthday/IMG_9645.JPG','1st birthday/IMG_9646.JPG',
+  '1st birthday/IMG_9647.JPG','1st birthday/IMG_9648.JPG','1st birthday/IMG_9649.JPG',
+  '1st birthday/IMG_9678.JPG','1st birthday/IMG_9679.JPG','1st birthday/IMG_9680.JPG',
+  '1st birthday/IMG_9681.jpg','1st birthday/IMG_9682.jpg','1st birthday/IMG_9683.jpg',
+  '1st birthday/IMG_9684.jpg','1st birthday/IMG_9685.jpg',
+  '1st birthday/IMG_9696.jpg','1st birthday/IMG_9697.jpg','1st birthday/IMG_9698.jpg',
+  '1st birthday/IMG_9699.jpg','1st birthday/IMG_9700.jpg','1st birthday/IMG_9701.jpg',
+  '1st birthday/IMG_9702.jpg','1st birthday/IMG_9703.jpg','1st birthday/IMG_9704.jpg',
+  '1st birthday/IMG_9705.jpg','1st birthday/IMG_9706.jpg',
+  '1st birthday/IMG_9726.jpg','1st birthday/IMG_9727.jpg','1st birthday/IMG_9728.JPG',
+  '1st birthday/IMG_9729.JPG','1st birthday/IMG_9730.JPG','1st birthday/IMG_9731.JPG',
+  '1st birthday/IMG_9733.JPG','1st birthday/IMG_9734.jpg','1st birthday/IMG_9735.jpg',
+  '1st birthday/IMG_9736.jpg','1st birthday/IMG_9737.jpg','1st birthday/IMG_9738.jpg',
+  '1st birthday/IMG_9739.jpg',
+  '1st birthday/IMG_9751.jpg','1st birthday/IMG_9753.jpg','1st birthday/IMG_9754.jpg',
+  '1st birthday/IMG_9755.jpg','1st birthday/IMG_9756.jpg','1st birthday/IMG_9758.jpg',
+  '1st birthday/IMG_9759.jpg',
+  '1st birthday/IMG_9769.jpg','1st birthday/IMG_9770.jpg',
+  '1st birthday/IMG_9774.jpg','1st birthday/IMG_9775.jpg','1st birthday/IMG_9776.jpg',
+  '1st birthday/IMG_9777.jpg','1st birthday/IMG_9778.jpg','1st birthday/IMG_9779.jpg',
+  '1st birthday/IMG_9780.jpg'
+];
+
+let currentSlide2 = 0;
+const slideshowContainer2 = document.getElementById('slideshow-1');
+if (slideshowContainer2) {
+  const img2 = document.createElement('img');
+  img2.src = birthdayImages[0];
+  img2.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
+  slideshowContainer2.appendChild(img2);
+
+  setInterval(() => {
+    currentSlide2 = (currentSlide2 + 1) % birthdayImages.length;
+    img2.src = birthdayImages[currentSlide2];
   }, 2000);
 }
 
