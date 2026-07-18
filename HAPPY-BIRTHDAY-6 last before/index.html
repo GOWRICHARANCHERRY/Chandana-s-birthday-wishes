@@ -550,54 +550,14 @@ document.getElementById('go-home-btn').onclick = () => {
 buildMoments();
 
 // Initialize slideshow for first moment
-const slideshowImages = [];
-for (let i = 8654; i <= 8923; i++) {
-  slideshowImages.push(`1st trip/IMG_${i}.JPG`);
-  if (i !== 8668) slideshowImages.push(`1st trip/IMG_${i}.jpg`);
-}
-// Filter to only valid image extensions
 const validImages = [
-  '1st trip/IMG_8654.JPG','1st trip/IMG_8655.JPG','1st trip/IMG_8656.JPG','1st trip/IMG_8657.JPG',
-  '1st trip/IMG_8658.JPG','1st trip/IMG_8659.JPG','1st trip/IMG_8660.JPG','1st trip/IMG_8661.JPG',
-  '1st trip/IMG_8662.JPG','1st trip/IMG_8663.JPG','1st trip/IMG_8664.JPG','1st trip/IMG_8665.JPG',
-  '1st trip/IMG_8666.JPG','1st trip/IMG_8667.JPG','1st trip/IMG_8668.JPG','1st trip/IMG_8669.jpg',
-  '1st trip/IMG_8670.jpg','1st trip/IMG_8671.jpg','1st trip/IMG_8672.jpg','1st trip/IMG_8673.jpg',
-  '1st trip/IMG_8674.jpg','1st trip/IMG_8675.jpg','1st trip/IMG_8676.jpg','1st trip/IMG_8687.jpg',
-  '1st trip/IMG_8688.jpg','1st trip/IMG_8689.jpg','1st trip/IMG_8690.JPG','1st trip/IMG_8691.JPG',
-  '1st trip/IMG_8692.JPG','1st trip/IMG_8697.JPG','1st trip/IMG_8698.jpg','1st trip/IMG_8701.jpg',
-  '1st trip/IMG_8702.jpg','1st trip/IMG_8705.jpg','1st trip/IMG_8706.jpg','1st trip/IMG_8707.jpg',
-  '1st trip/IMG_8709.jpg','1st trip/IMG_8710.jpg','1st trip/IMG_8712.jpg','1st trip/IMG_8713.jpg',
-  '1st trip/IMG_8714.jpg','1st trip/IMG_8715.JPG','1st trip/IMG_8716.JPG','1st trip/IMG_8717.JPG',
-  '1st trip/IMG_8718.JPG','1st trip/IMG_8719.jpg','1st trip/IMG_8720.jpg','1st trip/IMG_8721.jpg',
-  '1st trip/IMG_8722.jpg','1st trip/IMG_8723.jpg','1st trip/IMG_8724.jpg','1st trip/IMG_8725.jpg',
-  '1st trip/IMG_8726.jpg','1st trip/IMG_8727.jpg','1st trip/IMG_8728.jpg','1st trip/IMG_8733.jpg',
-  '1st trip/IMG_8734.JPG','1st trip/IMG_8735.JPG','1st trip/IMG_8736.jpg','1st trip/IMG_8737.jpg',
-  '1st trip/IMG_8738.jpg','1st trip/IMG_8740.jpg','1st trip/IMG_8741.jpg','1st trip/IMG_8742.jpg',
-  '1st trip/IMG_8743.jpg','1st trip/IMG_8744.jpg','1st trip/IMG_8745.jpg','1st trip/IMG_8746.jpg',
-  '1st trip/IMG_8758.jpg','1st trip/IMG_8760.JPG','1st trip/IMG_8761.JPG','1st trip/IMG_8762.jpg',
-  '1st trip/IMG_8763.jpg','1st trip/IMG_8764.jpg','1st trip/IMG_8765.JPG','1st trip/IMG_8766.jpg',
-  '1st trip/IMG_8767.jpg','1st trip/IMG_8768.jpg','1st trip/IMG_8772.JPG','1st trip/IMG_8773.jpg',
-  '1st trip/IMG_8774.JPG','1st trip/IMG_8775.JPG','1st trip/IMG_8777.JPG','1st trip/IMG_8778.JPG',
-  '1st trip/IMG_8779.JPG','1st trip/IMG_8783.jpg','1st trip/IMG_8786.jpg','1st trip/IMG_8787 2.jpg',
-  '1st trip/IMG_8788.jpg','1st trip/IMG_8791.JPG','1st trip/IMG_8792.jpg','1st trip/IMG_8793.jpg',
-  '1st trip/IMG_8794.jpg','1st trip/IMG_8795.JPG','1st trip/IMG_8796.JPG','1st trip/IMG_8797.jpg',
-  '1st trip/IMG_8798.jpg','1st trip/IMG_8799.jpg','1st trip/IMG_8800.JPG','1st trip/IMG_8801.JPG',
-  '1st trip/IMG_8802.jpg','1st trip/IMG_8803.jpg','1st trip/IMG_8804.jpg','1st trip/IMG_8805.jpg',
-  '1st trip/IMG_8806.jpg','1st trip/IMG_8807.jpg','1st trip/IMG_8808.jpg','1st trip/IMG_8809.jpg',
-  '1st trip/IMG_8810.JPG','1st trip/IMG_8811.JPG','1st trip/IMG_8812.jpg','1st trip/IMG_8813.jpg',
-  '1st trip/IMG_8814.JPG','1st trip/IMG_8817.jpg','1st trip/IMG_8819.jpg','1st trip/IMG_8820.jpg',
-  '1st trip/IMG_8821.jpg','1st trip/IMG_8822.jpg','1st trip/IMG_8823.jpg','1st trip/IMG_8824.jpg',
-  '1st trip/IMG_8825.jpg','1st trip/IMG_8826.jpg','1st trip/IMG_8827.jpg','1st trip/IMG_8828.jpg',
-  '1st trip/IMG_8829.jpg','1st trip/IMG_8830.jpg','1st trip/IMG_8831.jpg','1st trip/IMG_8832.jpg',
-  '1st trip/IMG_8834.jpg','1st trip/IMG_8835.jpg','1st trip/IMG_8836.jpg','1st trip/IMG_8837.jpg',
-  '1st trip/IMG_8843.jpg','1st trip/IMG_8844.jpg','1st trip/IMG_8845.jpg','1st trip/IMG_8846.jpg',
-  '1st trip/IMG_8847.jpg','1st trip/IMG_8849.jpg','1st trip/IMG_8852.jpg','1st trip/IMG_8853.jpg',
-  '1st trip/IMG_8854.jpg','1st trip/IMG_8855.jpg','1st trip/IMG_8856.JPG','1st trip/IMG_8857.JPG',
-  '1st trip/IMG_8858.jpg','1st trip/IMG_8859.jpg','1st trip/IMG_8860.JPG','1st trip/IMG_8861.JPG',
-  '1st trip/IMG_8862 2.jpg','1st trip/IMG_8863.jpg','1st trip/IMG_8864.jpg','1st trip/IMG_8865.jpg',
-  '1st trip/IMG_8866.jpg','1st trip/IMG_8868.jpg','1st trip/IMG_8869.jpg','1st trip/IMG_8870.jpg',
-  '1st trip/IMG_8875.jpg','1st trip/IMG_8876.jpg','1st trip/IMG_8880.jpg','1st trip/IMG_8906.jpg',
-  '1st trip/IMG_8921.jpg','1st trip/IMG_8922.jpg','1st trip/IMG_8923.jpg'
+  '1st trip/IMG_8657.JPG','1st trip/IMG_8660.JPG','1st trip/IMG_8661.JPG','1st trip/IMG_8663.JPG',
+  '1st trip/IMG_8664.JPG','1st trip/IMG_8674.jpg','1st trip/IMG_8676.jpg','1st trip/IMG_8691.JPG',
+  '1st trip/IMG_8713.jpg','1st trip/IMG_8714.jpg','1st trip/IMG_8724.jpg','1st trip/IMG_8725.jpg',
+  '1st trip/IMG_8727.jpg','1st trip/IMG_8741.jpg','1st trip/IMG_8773.jpg','1st trip/IMG_8787 2.jpg',
+  '1st trip/IMG_8798.jpg','1st trip/IMG_8817.jpg','1st trip/IMG_8827.jpg','1st trip/IMG_8831.jpg',
+  '1st trip/IMG_8855.jpg','1st trip/IMG_8862 2.jpg','1st trip/IMG_8866.jpg','1st trip/IMG_8880.jpg',
+  '1st trip/IMG_8923.jpg'
 ];
 
 let currentSlide = 0;
