@@ -192,7 +192,7 @@ function createDiv(height, width) {
 </head>
 <body>
 
-<audio id="bg-music" loop>
+<audio id="bg-music" loop autoplay>
     <source src="Happy Birthday Song.mp3" type="audio/mpeg">
 </audio>
 
@@ -348,6 +348,15 @@ function createDiv(height, width) {
       bgMusic.currentTime = 11;
       toggleBtn.classList.add('playing');
     }).catch(() => {});
+
+    document.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.currentTime = 11;
+        bgMusic.play().then(() => {
+          toggleBtn.classList.add('playing');
+        }).catch(() => {});
+      }
+    }, { once: true });
 
     toggleBtn.addEventListener('click', () => {
       if (bgMusic.paused) {
