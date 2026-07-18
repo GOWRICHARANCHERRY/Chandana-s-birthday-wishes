@@ -459,7 +459,17 @@ After that, we went to the Adiyogi Shiva statue at Isha. I wanted you to feel pe
 By the end of the trip, I wasn't happy because we visited beautiful places. I was happy because the sad girl I met the previous day had disappeared, and the Chandhu I knew was smiling again.
 
 That's what I remember most about this trip. Not the destination, not the photos, not the roads. Just you being happy. ❤️`,finalLine:'My favorite part of this trip wasn\'t Nandi Hills, the sunrise, or the places we visited. It was watching you smile again. ❤️'},
-  {title:'1st birthday celebrations of us',emoji:'🎂',accent:'#4D96FF',slideshow:true,image:'gublu3.jpeg',defaultDesc:'Our first long-distance moment — I remember you went to your college function, and we had planned that you would video call me from college. The first time you video called me, I could not see your face properly, just a blurry view. And then I finally saw you. Such a cute moment — we talked so much that day.'},
+  {title:'1st birthday celebrations of us',emoji:'🎂',accent:'#4D96FF',slideshow:true,scrollText:true,defaultDesc:`These photos are not just birthday pictures. They are memories of two special birthdays that became unforgettable because we celebrated them together.
+
+When I celebrated my first birthday in Bangalore, you came all the way to celebrate it with me. That day means so much to me even now. The shirt you gifted me is still safely kept in my cupboard. It may look like an ordinary shirt to others, but for me it is one of the most precious gifts I have ever received. Every time I see it, I don't just remember the gift — I remember you, your effort, and the happiness of that entire day.
+
+I still remember us celebrating at Mantri Square Mall, roaming around, laughing, and then going to Amoeba with my friends. We played games, had fun, clicked pictures, and created memories that I still smile about today. That birthday became special because you were there. ❤️
+
+Then came your first birthday in Bangalore. This time, it was my turn to celebrate you. Me, you, and Rubhina cut the cake together at my flat. It was simple, but it was perfect. After that, we went to Forum Mall, took countless pictures, walked around, laughed about random things, and enjoyed every moment together.
+
+The best thing about those birthdays wasn't the cake, the gifts, or the places we visited. It was the people, the memories, and the happiness we shared. Looking back now, I realize those moments became some of the most beautiful memories of my Bangalore life.
+
+Years may pass, and life may take us to different countries and different paths, but whenever I look at these photos, I don't just see birthdays. I see friendship, laughter, memories, and a person who made those days unforgettable. ❤️`,finalLine:'Two birthdays. Countless memories. One friendship that made them unforgettable. 🎂❤️'},
   {title:'First photo given (25th march,2024)',emoji:'📸',accent:'#FFD93D',image:'gulbu2.jpeg',defaultDesc:'A beautiful gift of a smile — I saw you for the first time, and oh my, how sweet you looked (it was you!). And the photo was so beautiful that I even drew it later — I still have it, Chandhu, hehe. Don\'t worry, whenever you want it, I will give it to you. Seeing your photo, I thought — this girl is so beautiful, she must have a boyfriend for sure. Later I found out, no, she just has friends, that\'s all. I know how happy I was in my mind seeing your first photo. Even now, it makes me so happy when I look at it.'},
   {title:'First time we went out(23rd january,2026) ',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'A token of love — To be honest, this moment is the best moment for me because Chandhu… you literally came to meet me during your periods, and I took you around during that time. And I teased you about it… but I am sorry, I always feel bad about teasing you. But to be very honest, that one hour was the most memorable time we spent together. I fed you food with your mother\'s hands, we talked a little, and I kissed you for the first time. You kissed me on the cheek — I still feel it when I think about it. I want to do it again… when we are close, it will happen one day. But this moment is truly my favourite, no matter how little time we had. But it was the best time. Umahhh, umahh, umahhh, umahhh, umahhh, my Chandhu.'},
   {title:'First gift(2023 first massage)',emoji:'🎁',accent:'#C77DFF',image:'bestg.jpeg',defaultDesc:'The first gift was… the first message you sent me — that was the best thing you ever gave me. In June or July of 2023, one day, a simple "Hi" came from you. That was the best and first gift.'},
@@ -619,6 +629,55 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 observer.observe(document.getElementById('slideshow-0'));
+
+// Initialize scroll text for second moment
+const scrollText2 = MOMENTS[1].defaultDesc;
+const scrollWords2 = scrollText2.split(' ');
+const scrollContent2 = document.getElementById('scroll-content-1');
+const finalLine2 = document.getElementById('final-line-1');
+const scrollContainer2 = document.getElementById('scroll-text-1');
+let wordIndex2 = 0;
+let scrollStarted2 = false;
+let userScrolledUp2 = false;
+
+scrollContainer2.addEventListener('scroll', () => {
+  const atBottom = scrollContainer2.scrollHeight - scrollContainer2.scrollTop - scrollContainer2.clientHeight < 30;
+  userScrolledUp2 = !atBottom;
+});
+
+function scrollNextWord2() {
+  if (wordIndex2 < scrollWords2.length) {
+    const span = document.createElement('span');
+    span.style.opacity = '0';
+    span.style.transition = 'opacity 0.4s ease';
+    span.textContent = (wordIndex2 === 0 ? '' : ' ') + scrollWords2[wordIndex2];
+    scrollContent2.appendChild(span);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        span.style.opacity = '1';
+      });
+    });
+    wordIndex2++;
+    if (!userScrolledUp2) {
+      scrollContainer2.scrollTop = scrollContainer2.scrollHeight;
+    }
+    setTimeout(scrollNextWord2, 250);
+  } else {
+    finalLine2.style.display = 'block';
+    scrollContainer2.scrollTop = scrollContainer2.scrollHeight;
+  }
+}
+
+const observer2 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !scrollStarted2) {
+      scrollStarted2 = true;
+      setTimeout(scrollNextWord2, 500);
+    }
+  });
+}, { threshold: 0.3 });
+
+observer2.observe(document.getElementById('slideshow-1'));
 
 // Initialize slideshow for first moment
 const validImages = [
