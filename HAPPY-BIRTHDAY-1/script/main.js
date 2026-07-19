@@ -1,10 +1,17 @@
 // trigger to play music in the background
 window.addEventListener('load', () => {
     const overlay = document.getElementById('start-overlay');
+    const song = document.querySelector('.song');
     overlay.addEventListener('click', () => {
         overlay.style.display = 'none';
-        document.querySelector('.song').play();
+        song.muted = false;
+        song.currentTime = 6;
+        song.play().catch(() => {});
         animationTimeline();
+    });
+    overlay.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        overlay.click();
     });
 });
 
