@@ -471,7 +471,7 @@ The best thing about those birthdays wasn't the cake, the gifts, or the places w
 
 Years may pass, and life may take us to different countries and different paths, but whenever I look at these photos, I don't just see birthdays. I see friendship, laughter, memories, and a person who made those days unforgettable. ❤️`,finalLine:'Two birthdays. Countless memories. One friendship that made them unforgettable. 🎂❤️'},
   {title:'Ethnic day and fest in my college',emoji:'🪔',accent:'#FFD93D',slideshow:true,scrollText:true,defaultDesc:"These pictures are from one of the most memorable days of my college life — not just because it was Ethnic Day, but because it was the first time you came to my college. I was genuinely excited that day. I wanted you to see my college, meet my friends, and experience a part of my Bangalore life that you had only heard about. Seeing you walk around my campus felt special because two important parts of my life were finally meeting each other — my college life and my best friend. ❤️ I still remember introducing you to all my friends. And honestly, I think half of them were jealous after seeing us together. 😂 Not because of anything else, but because of the bond we share. A bond built over years of friendship, trust, fights, laughter, and countless memories. But the best part wasn't even the fest. It was the night before. We spent the entire night roaming around the college campus, talking about random things, walking through empty corridors, laughing for no reason, and simply enjoying each other's company. Looking back now, those quiet moments mean even more than the event itself. Then came Ethnic Day. We dressed up, clicked hundreds of photos, walked around every corner of the campus, and enjoyed every moment together. Every photo from that day reminds me not only of the fest but also of how happy I was to have you there beside me. Whenever I look at these pictures, I don't just see Ethnic Day. I see one of the happiest days of my college life, made special by the presence of one person who means so much to me. ❤️ Some people visit your college and leave. But you came and became one of my favorite memories there.",finalLine:'The festival was beautiful, but having you there made it unforgettable. ❤️'},
-  {title:'Time I had spent with you in Hyderabad',emoji:'🚗',accent:'#6BCB77',image:'gublu8.jpeg',defaultDesc:'Add your text later.'},
+  {title:'Time I had spent with you in Hyderabad',emoji:'🚗',accent:'#6BCB77',slideshow:true,scrollText:true,defaultDesc:'Add your text here later.',finalLine:'Add your final line later.'},
 ];
 
 function buildMoments() {
@@ -727,6 +727,57 @@ const observer3 = new IntersectionObserver((entries) => {
 
 observer3.observe(document.getElementById('slideshow-2'));
 
+// Initialize scroll text for fourth moment
+const scrollText4 = MOMENTS[3].defaultDesc;
+const scrollWords4 = scrollText4.split(' ');
+const scrollContent4 = document.getElementById('scroll-content-3');
+const finalLine4 = document.getElementById('final-line-3');
+const scrollContainer4 = document.getElementById('scroll-text-3');
+let wordIndex4 = 0;
+let scrollStarted4 = false;
+let userScrolledUp4 = false;
+
+if (scrollContainer4) {
+  scrollContainer4.addEventListener('scroll', () => {
+    const atBottom = scrollContainer4.scrollHeight - scrollContainer4.scrollTop - scrollContainer4.clientHeight < 30;
+    userScrolledUp4 = !atBottom;
+  });
+}
+
+function scrollNextWord4() {
+  if (wordIndex4 < scrollWords4.length) {
+    const span = document.createElement('span');
+    span.style.opacity = '0';
+    span.style.transition = 'opacity 0.4s ease';
+    span.textContent = (wordIndex4 === 0 ? '' : ' ') + scrollWords4[wordIndex4];
+    scrollContent4.appendChild(span);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        span.style.opacity = '1';
+      });
+    });
+    wordIndex4++;
+    if (!userScrolledUp4) {
+      scrollContainer4.scrollTop = scrollContainer4.scrollHeight;
+    }
+    setTimeout(scrollNextWord4, 250);
+  } else {
+    finalLine4.style.display = 'block';
+    scrollContainer4.scrollTop = scrollContainer4.scrollHeight;
+  }
+}
+
+const observer4 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !scrollStarted4) {
+      scrollStarted4 = true;
+      setTimeout(scrollNextWord4, 500);
+    }
+  });
+}, { threshold: 0.3 });
+
+observer4.observe(document.getElementById('slideshow-3'));
+
 // Third moment slideshow - Ethnic day and fest
 const festImages = [
   'fest and ethinic day/IMG_20220521_124032.jpg','fest and ethinic day/IMG_20220521_134045.jpg',
@@ -776,6 +827,40 @@ const slideshowObserver3 = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 if (slideshowContainer3) slideshowObserver3.observe(slideshowContainer3);
+
+// Fourth moment slideshow - Hyderabad
+const hydImages = [
+  'hydrabad/IMG_0556.jpg','hydrabad/IMG_7898.jpg','hydrabad/IMG_7899.jpg','hydrabad/IMG_7900.jpg',
+  'hydrabad/IMG_7901.JPG','hydrabad/IMG_7902.JPG','hydrabad/IMG_7903.JPG',
+  'hydrabad/IMG_7904.jpg','hydrabad/IMG_7905.jpg','hydrabad/IMG_7906.jpg',
+  'hydrabad/IMG_7907.jpg','hydrabad/IMG_7908.jpg','hydrabad/IMG_7909.jpg',
+  'hydrabad/IMG_7910.jpg','hydrabad/IMG_7911.jpg','hydrabad/IMG_7912.jpg',
+  'hydrabad/IMG_7913.jpg','hydrabad/IMG_7914.jpg','hydrabad/IMG_7915.jpg',
+  'hydrabad/IMG_7916.jpg','hydrabad/IMG_7917.jpg','hydrabad/IMG_7918.jpg',
+  'hydrabad/IMG_7919.jpg','hydrabad/IMG_7920.jpg','hydrabad/IMG_7921.jpg',
+  'hydrabad/IMG_7922.jpg','hydrabad/IMG_7923.jpg','hydrabad/IMG_7924.jpg',
+  'hydrabad/IMG_7925.jpg','hydrabad/IMG_7926.jpg','hydrabad/IMG_7927.jpg',
+  'hydrabad/IMG_7928.jpg','hydrabad/IMG_7929.jpg','hydrabad/IMG_7931.jpg',
+  'hydrabad/IMG_7932.jpg','hydrabad/IMG_7933.jpg','hydrabad/IMG_7934.jpg',
+  'hydrabad/IMG_7935.jpg','hydrabad/IMG_7936.jpg','hydrabad/IMG_7937.jpg',
+  'hydrabad/IMG_7938.jpg','hydrabad/IMG_7939.jpg','hydrabad/IMG_7940.jpg',
+  'hydrabad/IMG_7970.JPG','hydrabad/IMG_8436.jpg','hydrabad/IMG_8437.jpg','hydrabad/IMG_8438.jpg'
+];
+
+let currentSlide4 = 0;
+const slideshowContainer4 = document.getElementById('slideshow-3');
+let interval3;
+if (slideshowContainer4) {
+  const img4 = document.createElement('img');
+  img4.src = hydImages[0];
+  img4.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
+  slideshowContainer4.appendChild(img4);
+
+  interval3 = setInterval(() => {
+    currentSlide4 = (currentSlide4 + 1) % hydImages.length;
+    img4.src = hydImages[currentSlide4];
+  }, 2000);
+}
 
 // Initialize slideshow for first moment
 const validImages = [
@@ -839,11 +924,16 @@ const slideshowObserver = new IntersectionObserver((entries) => {
       if (entry.isIntersecting) { if (!interval1) interval1 = setInterval(() => { currentSlide2 = (currentSlide2 + 1) % birthdayImages.length; document.querySelector('#slideshow-1 img').src = birthdayImages[currentSlide2]; }, 2000); }
       else { clearInterval(interval1); interval1 = null; }
     }
+    if (entry.target.id === 'slideshow-3') {
+      if (entry.isIntersecting) { if (!interval3) interval3 = setInterval(() => { currentSlide4 = (currentSlide4 + 1) % hydImages.length; document.querySelector('#slideshow-3 img').src = hydImages[currentSlide4]; }, 2000); }
+      else { clearInterval(interval3); interval3 = null; }
+    }
   });
 }, { threshold: 0.1 });
 
 if (slideshowContainer) slideshowObserver.observe(slideshowContainer);
 if (slideshowContainer2) slideshowObserver.observe(slideshowContainer2);
+if (slideshowContainer4) slideshowObserver.observe(slideshowContainer4);
 
 createStarField('stars-home', 80);
 startAmbient('canvas-home', 1);
