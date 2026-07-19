@@ -2,16 +2,26 @@
 window.addEventListener('load', () => {
     const overlay = document.getElementById('start-overlay');
     const song = document.querySelector('.song');
-    overlay.addEventListener('click', () => {
+    let started = false;
+
+    function startExperience() {
+        if (started) return;
+        started = true;
         overlay.style.display = 'none';
         song.muted = false;
         song.currentTime = 6;
-        song.play().catch(() => {});
-        animationTimeline();
-    });
+        song.load();
+        song.play().then(() => {
+            animationTimeline();
+        }).catch(() => {
+            animationTimeline();
+        });
+    }
+
+    overlay.addEventListener('click', startExperience);
     overlay.addEventListener('touchend', (e) => {
         e.preventDefault();
-        overlay.click();
+        startExperience();
     });
 });
 
